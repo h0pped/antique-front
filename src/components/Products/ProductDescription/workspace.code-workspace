@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "Pagination",
+			"path": "..\\..\\..\\..\\..\\..\\..\\..\\Vue\\antique-vue\\src\\components\\Pagination"
+		},
+		{
+			"name": "clientapp",
+			"path": "..\\..\\..\\.."
+		},
+		{
+			"name": "Products",
+			"path": "..\\..\\..\\..\\..\\..\\..\\..\\Vue\\antique-vue\\src\\components\\Products"
+		}
+	],
+	"settings": {}
+}
