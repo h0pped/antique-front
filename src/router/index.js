@@ -9,6 +9,8 @@ import Clocks from "../components/Products/Clocks.vue"
 import Another from "../components/Products/Another.vue"
 import ProductDescription from "../components/Products/ProductDescription/ProductDescription.vue"
 
+import Login from "../components/Login/Login.vue"
+
 export const url = 'http://91.238.103.88';
 
 Vue.use(VueRouter)
@@ -55,6 +57,12 @@ Vue.use(VueRouter)
     path:"/description/:id",
     name:"Description",
     component:ProductDescription,
+    props: true
+  },
+  {
+    path:"/login/",
+    name:"Login",
+    component:Login,
     props: true
   }
 
