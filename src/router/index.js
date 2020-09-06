@@ -10,6 +10,9 @@ import Another from "../components/Products/Another.vue"
 import ProductDescription from "../components/Products/ProductDescription/ProductDescription.vue"
 
 import Login from "../components/Login/Login.vue"
+import Logout from "../components/Logout/Logout.vue"
+
+import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 
 export const url = 'http://91.238.103.88';
 
@@ -60,9 +63,26 @@ Vue.use(VueRouter)
     props: true
   },
   {
-    path:"/login/",
+    path:"/adminPanel",
+    name:"AdminPanel",
+    component:AdminPanel,
+    meta:{
+      requiresAuth:true
+    }
+  },
+  {
+    path:"/login",
     name:"Login",
     component:Login,
+    props: true,
+    meta:{
+      requiresVisitor:true
+    }
+  },
+  {
+    path:"/logout",
+    name:"Logout",
+    component:Logout,
     props: true
   }
 

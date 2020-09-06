@@ -14,28 +14,15 @@
             sm="8"
             md="4"
           >
-            <v-card class="elevation-12">
+            <v-card class="elevation-12" :loading="isLoading">
               <v-toolbar
-                color="primary"
+                color="brown lighten-1"
                 dark
                 flat
               >
                 <v-toolbar-title>Авторизация</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      :href="source"
-                      icon
-                      large
-                      target="_blank"
-                      v-on="on"
-                    >
-                      <v-icon>mdi-code-tags</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Source</span>
-                </v-tooltip>
+                
               </v-toolbar>
               <v-card-text>
                 <v-form @submit.prevent="login" id="loginform">
@@ -59,12 +46,14 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn type="submit" color="primary" form="loginform" >Войти</v-btn>
+                <v-btn type="submit" color="success" form="loginform" >Войти</v-btn>
               </v-card-actions>
               
             </v-card>
           </v-col>
+          
         </v-row>
+        
       </v-container>
     </v-main>
   </v-app>
@@ -78,15 +67,22 @@
     name:"Login",
     data(){
         return{
+        isLoading:false,
+        isFailed:false,
         username:"",
         password:""
         }
     },
     methods:{
         login(){
+            this.isLoading=true;
             this.$store.dispatch('retreiveToken',{
                 username:this.username,
                 password:this.password
+            }).then(response=>{
+                console.log(response);
+                this.$router.push("/")
+            this.isLoading=false;
             })
         }
     }

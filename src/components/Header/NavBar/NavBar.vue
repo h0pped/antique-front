@@ -34,6 +34,16 @@
                 Статус заказа
               </router-link>
             </li> 
+            <li v-if="!loggedIn">
+              <router-link to="/login">
+                Авторизация
+              </router-link>
+            </li>
+            <li v-if="loggedIn">
+              <router-link to="/logout">
+                Выйти
+              </router-link>
+            </li>
           </ul>
         </div>
       </v-col>
@@ -47,6 +57,11 @@ export default {
   data: () => ({
     
   }),
+  computed:{
+    loggedIn(){
+      return this.$store.getters.loggedIn
+    }
+  }
 };
 </script>
 
