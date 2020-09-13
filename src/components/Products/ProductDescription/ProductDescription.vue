@@ -53,7 +53,7 @@
           <div>{{ product.price }} грн.</div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="orange" text>
+          <v-btn color="orange" text @click="addToCart(product)">
             Купить
           </v-btn>
         </v-card-actions>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: "Description",
   data: () => ({
@@ -79,5 +80,13 @@ export default {
       this.loading = false;
     });
   },
+  methods:{
+     ...mapActions([
+        'ADD_TO_CART'
+      ]),
+    addToCart(data){
+      this.ADD_TO_CART(data);
+    }
+  }
 };
 </script>
