@@ -44,6 +44,12 @@
                 Выйти
               </router-link>
             </li>
+
+            <li>
+              <router-link to="/cart">
+                 <i class="fas fa-shopping-cart"></i>
+              </router-link>
+            </li> 
           </ul>
         </div>
       </v-col>

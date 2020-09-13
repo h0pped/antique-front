@@ -10,7 +10,7 @@
             <v-img
               class="white--text align-end"
               max-height="300px"
-              :src="url + '/images/photos/600_' + product.photos[0].path"
+              :src="url + '/images/photos/1280_' + product.photos[0].path"
               ><v-card-title></v-card-title
             ></v-img>
             <v-card-subtitle class="pb-0 headline"

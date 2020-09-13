@@ -10,6 +10,9 @@
 
 <script>
 import Product from './Product'
+
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   name: "ProductsViewer",
   components:{
@@ -19,11 +22,18 @@ export default {
     propsproducts: Array,
     url: String,
   },
+  computed: {
+      ...mapGetters([
+        'cart',
+      ])
+  },
   methods:{
+     ...mapActions([
+        'ADD_TO_CART'
+      ]),
     addToCart(data){
-      //this.$emit('addToCart',this.product);
-      console.log(data);
+      this.ADD_TO_CART(data);
     }
   }
-};
+}
 </script>

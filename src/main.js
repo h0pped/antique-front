@@ -7,6 +7,9 @@ import vuetify from './plugins/vuetify';
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 

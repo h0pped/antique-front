@@ -5,7 +5,6 @@
     <v-content class="grey lighten-3">
     
     <Template/>
-    <Cart v-if="cart.length"/>
 
     <transition
         name="fade"
@@ -20,13 +19,11 @@
 
 <script>
 import Template from "./components/Template.vue"
-import Cart from "./components/Cart/Cart.vue"
 import {mapGetters} from "vuex"
 export default {
   name: 'App',
   components: {
-  Template,
-  Cart
+  Template
   },
   data: () => ({
     //

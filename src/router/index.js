@@ -12,6 +12,8 @@ import ProductDescription from "../components/Products/ProductDescription/Produc
 import Login from "../components/Login/Login.vue"
 import Logout from "../components/Logout/Logout.vue"
 
+import Cart from "../components/Cart/Cart.vue"
+
 import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 
 export const url = 'http://91.238.103.88';
@@ -83,6 +85,12 @@ Vue.use(VueRouter)
     path:"/logout",
     name:"Logout",
     component:Logout,
+    props: true
+  },
+  {
+    path:"/cart",
+    name:"Cart",
+    component:Cart,
     props: true
   }
 

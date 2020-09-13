@@ -24,6 +24,10 @@ export default new Vuex.Store({
     },
    destroyToken(state){
      state.token = null;
+   },
+
+   SET_CART:(state,product)=>{
+      state.cart.push(product);
    }
 
   },
@@ -61,6 +65,10 @@ export default new Vuex.Store({
 
 
       }
+    },
+    ADD_TO_CART({commit},product){
+      commit('SET_CART',product);
+
     }
   },
   modules: {
