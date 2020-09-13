@@ -6,11 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('access_token') || null
+    token: localStorage.getItem('access_token') || null,
+
+    cart:[]
   },
   getters:{
     loggedIn(state){
       return state.token!=null;
+    },
+    cart(state){
+      return state.cart;
     }
   },
   mutations: {
