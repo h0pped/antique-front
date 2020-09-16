@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('access_token') || null,
 
-    cart:[]
+    cart:[],
+    cart_total:0
   },
   getters:{
     loggedIn(state){
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     cart(state){
       return state.cart;
+    },
+    total(state){
+      return state.cart_total;
     }
   },
   mutations: {
@@ -28,6 +32,7 @@ export default new Vuex.Store({
 
    SET_CART:(state,product)=>{
       state.cart.push(product);
+      state.cart_total+=product.price;
    }
 
   },
@@ -62,14 +67,52 @@ export default new Vuex.Store({
         context.commit("destroyToken");
         resolve(true);
       })
-
-
       }
     },
     ADD_TO_CART({commit},product){
       commit('SET_CART',product);
 
+    },
+    FORM_ORDER({state}, credentials) {
+      
+      console.log(JSON.parse(JSON.stringify(state.cart)));
+
+      /*const formData = new FormData();
+      formData.append('Name', credentials.name);
+      formData.append('Surname', credentials.surname);
+      formData.append('Number', credentials.number);
+      formData.append('City', credentials.city);
+      formData.append('Delivery', credentials.delivery_selected);
+      formData.append('Deliverynum', credentials.delivery_num);
+      formData.append('TotalPrice', credentials.total_price);
+      formData.append('Products', JSON.parse(JSON.stringify(state.cart)));*/
+      const order={
+        Name:credentials.name,
+        Surname:credentials.surname,
+        Number:credentials.number,
+        City:credentials.city,
+        Delivery:credentials.delivery_selected,
+        Deliverynum:credentials.delivery_num,
+        TotalPrice:credentials.total_price,
+        Products:JSON.parse(JSON.stringify(state.cart))
+      }
+      
+      return new Promise((resolve,reject)=>{
+
+      axios.post('https://localhost:44351/api/Orders/', order)
+        .then(response => {
+          console.log(response)
+          
+          resolve(response);
+
+        })
+        .catch(error => {
+          reject(error);
+          console.log(error)
+        })
+      })
     }
+
   },
   modules: {
   }

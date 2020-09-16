@@ -67,7 +67,7 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <p class=" font-weight-light display-6">Стоимость покупки: 1111111 грн.</p>
+                <p class=" font-weight-light display-6">Стоимость покупки: {{this.total}} грн.</p>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" color="success" form="orderForm">Оформить заказ</v-btn>
               </v-card-actions>
@@ -86,7 +86,7 @@ export default {
   name: "FormOrder",
   components: {},
   computed: {
-    ...mapGetters(["cart"]),
+    ...mapGetters(["cart","total"]),
   },
   data() {
     return {
@@ -113,13 +113,19 @@ export default {
     formOrder() {
       this.isLoading = true;
       this.$store
-        .dispatch("sendOrder", {
-          username: this.username,
-          password: this.password,
+        .dispatch("FORM_ORDER", {
+          name: this.name,
+          surname: this.surname,
+          number: this.number,
+          city:this.city,
+          delivery_selected: this.delivery_selected,
+          delivery_num: this.delivery_num,
+          total_price: this.total,
+          products:this.cart
         })
         .then((response) => {
           console.log(response);
-          this.$router.push("/");
+          //this.$router.push("/");
           this.isLoading = false;
         });
     },
