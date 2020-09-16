@@ -8,17 +8,17 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('access_token') || null,
 
-    cart:[],
-    cart_total:0
+    cart: [],
+    cart_total: 0
   },
-  getters:{
-    loggedIn(state){
-      return state.token!=null;
+  getters: {
+    loggedIn(state) {
+      return state.token != null;
     },
-    cart(state){
+    cart(state) {
       return state.cart;
     },
-    total(state){
+    total(state) {
       return state.cart_total;
     }
   },
@@ -26,14 +26,17 @@ export default new Vuex.Store({
     retrieveToken(state, token) {
       state.token = token
     },
-   destroyToken(state){
-     state.token = null;
-   },
+    destroyToken(state) {
+      state.token = null;
+    },
 
-   SET_CART:(state,product)=>{
+    SET_CART: (state, product) => {
       state.cart.push(product);
-      state.cart_total+=product.price;
-   }
+      state.cart_total += product.price;
+    },
+    CLEAR_CART: (state) => {
+      state.cart = [];
+    }
 
   },
   actions: {
@@ -41,75 +44,62 @@ export default new Vuex.Store({
       const formData = new FormData();
       formData.append('username', credentials.username);
       formData.append('password', credentials.password);
-      return new Promise((resolve,reject)=>{
+      return new Promise((resolve, reject) => {
 
-      axios.post('https://localhost:44351/api/users/authenticate', formData)
-        .then(response => {
-          const token = response.data.token
-          localStorage.setItem('access_token', token);
-          context.commit('retrieveToken', token);
+        axios.post('https://localhost:44351/api/users/authenticate', formData)
+          .then(response => {
+            const token = response.data.token
+            localStorage.setItem('access_token', token);
+            context.commit('retrieveToken', token);
 
-          resolve(response);
+            resolve(response);
 
-          console.log(token);
-        })
-        .catch(error => {
-          reject(error);
-          console.log(error)
-        })
+            console.log(token);
+          })
+          .catch(error => {
+            reject(error);
+            console.log(error)
+          })
       })
     },
-    destroyToken(context){
-      if(context.getters.loggedIn){
-      return new Promise((resolve)=>{
+    destroyToken(context) {
+      if (context.getters.loggedIn) {
+        return new Promise((resolve) => {
 
-        localStorage.removeItem('access_token');
-        context.commit("destroyToken");
-        resolve(true);
-      })
+          localStorage.removeItem('access_token');
+          context.commit("destroyToken");
+          resolve(true);
+        })
       }
     },
-    ADD_TO_CART({commit},product){
-      commit('SET_CART',product);
+    ADD_TO_CART({ commit }, product) {
+      commit('SET_CART', product);
 
     },
-    FORM_ORDER({state}, credentials) {
-      
-      console.log(JSON.parse(JSON.stringify(state.cart)));
+    FORM_ORDER({ commit, state }, credentials) {
 
-      /*const formData = new FormData();
-      formData.append('Name', credentials.name);
-      formData.append('Surname', credentials.surname);
-      formData.append('Number', credentials.number);
-      formData.append('City', credentials.city);
-      formData.append('Delivery', credentials.delivery_selected);
-      formData.append('Deliverynum', credentials.delivery_num);
-      formData.append('TotalPrice', credentials.total_price);
-      formData.append('Products', JSON.parse(JSON.stringify(state.cart)));*/
-      const order={
-        Name:credentials.name,
-        Surname:credentials.surname,
-        Number:credentials.number,
-        City:credentials.city,
-        Delivery:credentials.delivery_selected,
-        Deliverynum:credentials.delivery_num,
-        TotalPrice:credentials.total_price,
-        Products:JSON.parse(JSON.stringify(state.cart))
+      const order = {
+        Name: credentials.name,
+        Surname: credentials.surname,
+        Number: credentials.number,
+        City: credentials.city,
+        Delivery: credentials.delivery_selected,
+        Deliverynum: credentials.delivery_num,
+        TotalPrice: credentials.total_price,
+        Products: JSON.parse(JSON.stringify(state.cart))
       }
-      
-      return new Promise((resolve,reject)=>{
 
-      axios.post('https://localhost:44351/api/Orders/', order)
-        .then(response => {
-          console.log(response)
-          
-          resolve(response);
+      return new Promise((resolve, reject) => {
 
-        })
-        .catch(error => {
-          reject(error);
-          console.log(error)
-        })
+        axios.post('https://localhost:44351/api/Orders/', order)
+          .then(response => {
+            commit("CLEAR_CART");
+            resolve(response);
+          })
+          .catch(error => {
+            reject(error);
+            console.log(error)
+          })
       })
     }
 

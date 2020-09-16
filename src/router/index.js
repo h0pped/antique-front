@@ -20,7 +20,7 @@ import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 export const url = 'http://91.238.103.88';
 
 Vue.use(VueRouter)
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'All',
@@ -60,48 +60,48 @@ Vue.use(VueRouter)
     component: Another
   },
   {
-    path:"/description/:id",
-    name:"Description",
-    component:ProductDescription,
+    path: "/description/:id",
+    name: "Description",
+    component: ProductDescription,
     props: true
   },
   {
-    path:"/adminPanel",
-    name:"AdminPanel",
-    component:AdminPanel,
-    meta:{
-      requiresAuth:true
+    path: "/adminPanel",
+    name: "AdminPanel",
+    component: AdminPanel,
+    meta: {
+      requiresAuth: true
     }
   },
   {
-    path:"/login",
-    name:"Login",
-    component:Login,
+    path: "/login",
+    name: "Login",
+    component: Login,
     props: true,
-    meta:{
-      requiresVisitor:true
+    meta: {
+      requiresVisitor: true
     }
   },
   {
-    path:"/logout",
-    name:"Logout",
-    component:Logout,
+    path: "/logout",
+    name: "Logout",
+    component: Logout,
     props: true
   },
   {
-    path:"/cart",
-    name:"Cart",
-    component:Cart,
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
     props: true
   },
   {
-    path:"/order",
-    name:"FormOrder",
-    component:FormOrder,
+    path: "/order",
+    name: "FormOrder",
+    component: FormOrder,
     props: true
   }
 
-  ]
+]
 
 const router = new VueRouter({
   routes
