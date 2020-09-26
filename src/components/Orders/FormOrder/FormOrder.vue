@@ -125,9 +125,9 @@ export default {
       delivery_num: null,
       delivery_selected: "",
       delivery_options: [
-        { text: "Новая почта", value: "1" },
-        { text: "Интайм", value: "2" },
-        { text: "УкрПочта", value: "3" },
+        { text: "Новая почта", value: "Новая почта" },
+        { text: "Интайм", value: "Интайм" },
+        { text: "УкрПочта", value: "УкрПочта" },
       ],
 
       order_id: null,

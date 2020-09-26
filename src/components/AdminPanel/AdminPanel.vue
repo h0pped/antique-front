@@ -32,7 +32,7 @@
   <v-container fluid>
       <v-row justify="center" >
     <v-col v-if="activeMenu==0">
-        <p class="text-center font-weight-light text-h3">Заказы</p>
+        <OrdersTable></OrdersTable>
     </v-col>
     <v-col v-if="activeMenu==1">
         <p class="text-center font-weight-light text-h3">Добавить новый товар</p>
@@ -50,7 +50,11 @@
 </template>
 
 <script>
+import OrdersTable from '../Orders/OrdersService/OrdersTable'
 export default {
+    components: {
+    OrdersTable,
+  },
     data(){
         return{
             activeMenu:0

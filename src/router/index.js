@@ -13,7 +13,7 @@ import Login from "../components/Login/Login.vue"
 import Logout from "../components/Logout/Logout.vue"
 
 import Cart from "../components/Cart/Cart.vue"
-import FormOrder from "../components/FormOrder/FormOrder.vue"
+import FormOrder from "../components/Orders/FormOrder/FormOrder.vue"
 
 import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 
