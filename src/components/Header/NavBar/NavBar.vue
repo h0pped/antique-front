@@ -30,7 +30,7 @@
               </router-link>
             </li> 
             <li>
-              <router-link to="/">
+              <router-link to="/invoice">
                 Статус заказа
               </router-link>
             </li> 

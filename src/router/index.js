@@ -14,6 +14,7 @@ import Logout from "../components/Logout/Logout.vue"
 
 import Cart from "../components/Cart/Cart.vue"
 import FormOrder from "../components/Orders/FormOrder/FormOrder.vue"
+import InvoicePage from "../components/Orders/InvoicePage/InvoicePage.vue"
 
 import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 
@@ -98,6 +99,12 @@ const routes = [
     name: "FormOrder",
     component: FormOrder,
     props: true
+  },
+  {
+    path:"/invoice",
+    name:"InvoicePage",
+    component:InvoicePage,
+    props:true
   }
 
 ]
