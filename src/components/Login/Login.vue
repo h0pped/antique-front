@@ -5,8 +5,8 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12" :loading="isLoading">
-              <v-toolbar color="brown lighten-1" dark flat>
-                <v-toolbar-title>Авторизация</v-toolbar-title>
+              <v-toolbar color="grey lighten-1" dark flat>
+                <v-toolbar-title class="grey--text text--darken-4">Авторизация</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
@@ -33,7 +33,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn type="submit" color="success" form="loginform" :disabled="!isFormValid">Войти</v-btn>
+                <v-btn type="submit" outlined  color="blue" form="loginform" :disabled="!isFormValid">Войти</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
