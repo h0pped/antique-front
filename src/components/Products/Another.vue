@@ -5,7 +5,7 @@
         <p class="text-center font-weight-light display-2">Разноe</p>
       </v-col>
     </v-row>
-    <ProductsService products_category="Разноe"/>
+    <ProductsService products_category="Разное"/>
   </div>
 </template>
 <script>

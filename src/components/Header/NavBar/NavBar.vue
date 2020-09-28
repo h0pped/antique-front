@@ -5,6 +5,11 @@
         <div class="nav">
           <ul>
             <li>
+              <router-link to="/adminPanel">
+                 <i class="fas fa-user-tie"></i>
+              </router-link>
+            </li> 
+            <li>
               <router-link to="/commodes">
                 Комоды
               </router-link>

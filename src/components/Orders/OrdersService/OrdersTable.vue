@@ -1,51 +1,54 @@
 <template>
-  <v-app>
-    
-
-    <p class="text-center font-weight-light text-h3">{{this.checkbox?"Незавершенные заказы":"Все заказы"}}</p>
+  <v-app class="grey lighten-3">
+    <p class="text-center font-weight-light text-h3">
+      {{ this.checkbox ? "Незавершенные заказы" : "Все заказы" }}
+    </p>
     <div v-if="loading">
-  
-
-    <v-row cols="12">
-      <v-col>
-        <v-text-field color="success" loading disabled></v-text-field>
-      </v-col>
-    </v-row>
-
-  </div>
-  <div v-if="!loading">
-
-    <v-checkbox
-      v-model="checkbox"
-      :label="`Показать незавершенные заказы`"
-      @change="check($event)"
-    ></v-checkbox>
-    <v-data-table
-      :headers="headers"
-      :items="this.checkbox == true ? undone_orders : all_orders"
-      :items-per-page="10"
-      class="elevation-1"
-    >
-      <template #item.full_name="{ item }"
-        >{{ item.name }} {{ item.surname }}</template
+      <v-row cols="12">
+        <v-col>
+          <v-text-field color="success" loading disabled></v-text-field>
+        </v-col>
+      </v-row>
+    </div>
+    <div v-if="!loading">
+      <v-checkbox
+        v-model="checkbox"
+        :label="`Показать незавершенные заказы`"
+        @change="check($event)"
+      ></v-checkbox>
+      <v-data-table
+        :headers="headers"
+        :items="this.checkbox == true ? undone_orders : all_orders"
+        :items-per-page="10"
+        :item-class="itemRowBackground"
+        class="elevation-1"
       >
-      <template #item.delivery="{ item }"
-        >{{ item.delivery }} #{{ item.deliveryNum }}</template
-      >
-      <template #item.totalPrice="{ item }"
-        >{{ item.totalPrice }} грн.</template
-      >
-      <template v-slot:item.actions="{ item }">
-        <v-icon medium class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-        <v-icon medium @click="deleteItem(item)">mdi-delete</v-icon>
-      </template>
-    </v-data-table>
+        <template #item.full_name="{ item }">
+          {{ item.name }} {{ item.surname }}</template
+        >
+        <template #item.delivery="{ item }"
+          >{{ item.delivery }} #{{ item.deliveryNum }}</template
+        >
+        <template #item.totalPrice="{ item }"
+          >{{ item.totalPrice }} грн.</template
+        >
+        <template v-slot:item.actions="{ item }">
+          <v-icon medium class="mr-2" @click="editItem(item)"
+            >mdi-pencil</v-icon
+          >
+          <v-icon medium @click="deleteItem(item)">mdi-delete</v-icon>
+        </template>
+      </v-data-table>
     </div>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["token"]),
+  },
   data() {
     return {
       url: "https://localhost:44351",
@@ -66,17 +69,32 @@ export default {
   },
   methods: {
     fetchOrders: function () {
-      this.axios.get(this.url + "/api/orders/allOrders").then((response) => {
-        this.all_orders = response.data;
-      });
-      this.axios.get(this.url + "/api/orders/undoneorders").then((response) => {
-        this.undone_orders = response.data;
-        this.loading = false;
-      });
+      this.axios
+        .get(this.url + "/api/orders/allOrders", {
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        })
+        .then((response) => {
+          this.all_orders = response.data;
+        });
+      this.axios
+        .get(this.url + "/api/orders/undoneorders", {
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        })
+        .then((response) => {
+          this.undone_orders = response.data;
+          this.loading = false;
+        });
     },
     check: function () {
-      this.loading=true;
+      this.loading = true;
       this.fetchOrders();
+    },
+    itemRowBackground: function (item) {
+      return item.isDone ? "green--text" : "";
     },
   },
   mounted: function () {

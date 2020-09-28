@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app  class="grey lighten-3">
 
   <v-bottom-navigation
     v-model="activeMenu"
@@ -35,7 +35,7 @@
         <OrdersTable></OrdersTable>
     </v-col>
     <v-col v-if="activeMenu==1">
-        <p class="text-center font-weight-light text-h3">Добавить новый товар</p>
+      <AddNewProduct></AddNewProduct>
     </v-col>
     <v-col v-if="activeMenu==2">
         <p class="text-center font-weight-light text-h3">Статистика</p>
@@ -51,9 +51,11 @@
 
 <script>
 import OrdersTable from '../Orders/OrdersService/OrdersTable'
+import AddNewProduct from '../Products/ProductsService/AddNewProduct.vue'
 export default {
     components: {
     OrdersTable,
+    AddNewProduct
   },
     data(){
         return{

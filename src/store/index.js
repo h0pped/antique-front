@@ -12,6 +12,9 @@ export default new Vuex.Store({
     cart_total: 0
   },
   getters: {
+    token(state){
+      return state.token
+    },
     loggedIn(state) {
       return state.token != null;
     },

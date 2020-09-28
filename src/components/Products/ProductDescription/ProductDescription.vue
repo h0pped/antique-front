@@ -67,7 +67,7 @@ import {mapActions} from 'vuex'
 export default {
   name: "Description",
   data: () => ({
-    url: "http://91.238.103.88",
+    url: "https://localhost:44351",
     loading: true,
     product: null,
   }),
