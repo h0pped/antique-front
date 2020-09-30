@@ -19,13 +19,14 @@ import InvoicePage from "../components/Orders/InvoicePage/InvoicePage.vue"
 import AdminPanel from "../components/AdminPanel/AdminPanel.vue"
 
 export const url = 'http://91.238.103.88';
-
+document.title = 'Antique';
 Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
     name: 'All',
-    component: All
+    component: All,
+    meta: { title: 'Antique - Все товары' }
   },
   {
     path: '/about',
@@ -33,45 +34,56 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: { title: 'О нас' }
+
   },
   {
     path: "/commodes",
     name: "Commodes",
-    component: Commodes
+    component: Commodes,
+    meta: { title: 'Antique - Комоды' }
+
   },
   {
     path: "/soft",
     name: "Soft",
-    component: Soft
+    component: Soft,
+    meta: { title: 'Antique - Мягкая часть' }
+
   },
   {
     path: "/tables",
     name: "Tables",
-    component: Tables
+    component: Tables,
+    meta: { title: 'Antique - Столы' }
   },
   {
     path: "/clocks",
     name: "Clocks",
-    component: Clocks
+    component: Clocks,
+    meta: { title: 'Antique - Часы' }
   },
   {
     path: "/another",
     name: "Another",
-    component: Another
+    component: Another,
+    meta: { title: 'Antique - Разное' }
   },
   {
     path: "/description/:id",
     name: "Description",
     component: ProductDescription,
-    props: true
+    props: true,
+    title: 'Antique - Описание товара' 
   },
   {
     path: "/adminPanel",
     name: "AdminPanel",
     component: AdminPanel,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+       title: 'Antique - Панель администратора'
     }
   },
   {
@@ -79,32 +91,37 @@ const routes = [
     name: "Login",
     component: Login,
     meta: {
-      requiresVisitor: true
+      requiresVisitor: true,
+      title: 'Antique - Авторизация' 
     }
   },
   {
     path: "/logout",
     name: "Logout",
     component: Logout,
-    props: true
+    props: true,
+    meta: { title: 'Antique - Выход' }
   },
   {
     path: "/cart",
     name: "Cart",
     component: Cart,
-    props: true
+    props: true,
+    meta: { title: 'Antique - Корзина' }
   },
   {
     path: "/order",
     name: "FormOrder",
     component: FormOrder,
-    props: true
+    props: true,
+    meta: { title: 'Antique - Оформить заказ' }
   },
   {
-    path:"/invoice",
-    name:"InvoicePage",
-    component:InvoicePage,
-    props:true
+    path: "/invoice",
+    name: "InvoicePage",
+    component: InvoicePage,
+    props: true,
+    meta: { title: 'Antique - Статус заказа' }
   }
 
 ]
@@ -112,5 +129,11 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+
+  next()
+});
 
 export default router

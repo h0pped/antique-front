@@ -11,17 +11,22 @@ import axios from 'axios'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
+document.title = 'Antique';
+
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(route => route.meta.requiresAuth)
+  const requiresVisitor = to.matched.some(route => route.meta.requiresVisitor)
   //const requiresVisitor = to.matched.some(route => route.meta.requiresVisitor)
   const isAuth = store.getters.loggedIn;
-
   if (requiresAuth && !isAuth) {
     next('/login')
-  } else {
+  }else if(requiresVisitor&&isAuth){
+    next('')
+  } 
+  else {
     next()
   }
 });
