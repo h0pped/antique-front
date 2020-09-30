@@ -4,7 +4,7 @@
       <v-col cols="12">
         <div class="nav">
           <ul>
-            <li>
+            <li class="mr-10">
               <router-link to="/adminPanel">
                  <i class="fas fa-user-tie"></i>
               </router-link>
@@ -50,8 +50,10 @@
               </router-link>
             </li>
 
-            <li>
+            <li class="ml-10">
               <router-link to="/cart">
+                 {{cart.length?cart.length:""}}
+
                  <i class="fas fa-shopping-cart"></i>
               </router-link>
             </li> 
@@ -63,12 +65,14 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: "NavBar",
   data: () => ({
     
   }),
   computed:{
+    ...mapGetters(["cart"]),
     loggedIn(){
       return this.$store.getters.loggedIn
     }
