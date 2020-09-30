@@ -1,6 +1,6 @@
 <template>
-  <v-app id="inspire"  class="grey lighten-3">
-    <v-main >
+  <v-app id="inspire" class="grey lighten-3">
+    <v-main>
       <v-container fluid>
         <v-row justify="center">
           <v-col fluid>
@@ -63,38 +63,47 @@
                   >
                   </v-file-input>
                   <v-container>
-                  <v-row fluid>
-                    <v-col
-                      v-for="n in images.length"
-                      :key="n"
-                    >
-                      <v-img
-                      max-height="300px"
-                      max-width="200px"
-                      min-width="150px"
-                      contain
-                        :src="images[n-1]"
-                        aspect-ratio="1"
-                        class="grey lighten-2"
-                        :key="n"
-                      >
-                        <template v-slot:placeholder>
-                          <v-row
-                            class="fill-height ma-0"
-                            align="center"
-                            justify="center"
-                          >
-                            <v-progress-circular
-                              indeterminate
-                              color="grey lighten-5"
-                            ></v-progress-circular>
-                          </v-row>
-                        </template>
-                      </v-img>
-                    </v-col>
-                  </v-row>
+                    <v-row fluid>
+                      <v-col v-for="n in images.length" :key="n">
+                        
+                        <v-img
+                          max-height="300px"
+                          max-width="200px"
+                          min-width="150px"
+                          contain
+                          :src="images[n - 1]"
+                          aspect-ratio="1"
+                          class="grey lighten-2"
+                          :key="n"
+                        >
+                        <v-chip
+                          class="ma-2 delete-label"
+                          color="black  accent-4"
+                          outlined
+                          link
+                          x-default
+                          
+                          @click="deleteImg(n)"
+                        >
+                          <v-icon left  > mdi-delete</v-icon>
+                          Удалить
+                        </v-chip>
+                          <template v-slot:placeholder>
+                            <v-row
+                              class="fill-height ma-0"
+                              align="center"
+                              justify="center"
+                            >
+                              <v-progress-circular
+                                indeterminate
+                                color="grey lighten-5"
+                              ></v-progress-circular>
+                            </v-row>
+                          </template>
+                        </v-img>
+                      </v-col>
+                    </v-row>
                   </v-container>
-
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -123,9 +132,10 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-    computed: {
+  computed: {
     ...mapGetters(["token"]),
   },
+
   data() {
     return {
       url: "https://localhost:44351",
@@ -164,28 +174,39 @@ export default {
       }
       console.log(this.images);
     },
-    addNewProduct:function(){
-        const product = {
+    addNewProduct: function () {
+      const product = {
         Name: this.name,
         Category: this.category,
-        Price:this.price,
-        Description:this.description,
-        ImgsBase64:JSON.parse(JSON.stringify(this.images))
-      }
-      console.log("PRODUCT:",product)
-      this.axios.post(this.url+"/api/products/add",product, {
-headers: {
-      Authorization: 'Bearer ' + this.token,
-   }
-}).then((response)=>{
+        Price: this.price,
+        Description: this.description,
+        ImgsBase64: this.images,
+      };
+      console.log("PRODUCT:", product);
+      this.axios
+        .post(this.url + "/api/products/add", product, {
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        })
+        .then((response) => {
           console.log(response.data);
-      }).
-      catch(error=>{
+        })
+        .catch((error) => {
           console.log(error);
-      })
-        
-
+        });
+    },
+    deleteImg:function(num){
+      this.images.splice(num-1, 1);
     }
   },
 };
 </script>
+<style scoped>
+.delete-label{
+  position: absolute;
+  float: right;
+  right:-2%;
+  top:-2%;
+}
+</style>
