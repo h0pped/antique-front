@@ -1,14 +1,10 @@
 <template>
-
   <div v-if="loading">
-  
-
     <v-row cols="12">
       <v-col>
         <v-text-field color="success" loading disabled></v-text-field>
       </v-col>
     </v-row>
-
   </div>
   <div v-else>
     <v-container>
@@ -41,12 +37,11 @@
 <script>
 import Pagination from "../../Pagination/Pagination.vue";
 import ProductsViewer from "../ProductsService/ProductsViewer.vue";
-
 export default {
   name: "All",
   components: {
     Pagination,
-    ProductsViewer,
+    ProductsViewer
   },
   data: function() {
     return {
@@ -62,7 +57,8 @@ export default {
       currentPage: 1,
 
       searchvalue: "",
-
+      messages:[
+      ],
       fab: false
     };
   },

@@ -92,9 +92,16 @@ export default new Vuex.Store({
         })
       }
     },
-    ADD_TO_CART({ commit }, product) {
-      commit('SET_CART', product);
-
+    ADD_TO_CART({ commit,getters }, product) {
+      return new Promise((resolve) => {
+        let cartLength = getters.cart.length;
+        commit('SET_CART', product);
+        if(getters.cart.length>cartLength){
+          resolve(true);
+        }else{
+          resolve(false);
+        }
+      });
     },
     DELETE_FROM_CART({commit},index){
       commit("REMOVE_FROM_CART",index);

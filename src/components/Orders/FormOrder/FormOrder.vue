@@ -74,7 +74,7 @@
                   type="submit"
                   color="success"
                   form="orderForm"
-                  :disabled="!isFormValid"
+                  :disabled="!isFormValid ||isLoading"
                 >Оформить заказ</v-btn>
               </v-card-actions>
             </v-card>

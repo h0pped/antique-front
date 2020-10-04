@@ -4,7 +4,7 @@
       <v-col cols="12">
         <div class="nav">
           <ul>
-            <li class="mr-10">
+            <li class="mr-10" v-if="loggedIn">
               <router-link to="/adminPanel">
                  <i class="fas fa-user-tie"></i>
               </router-link>
