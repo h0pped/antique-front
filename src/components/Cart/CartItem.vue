@@ -29,6 +29,11 @@ export default {
     data(){
         return {}
     },
+    methods:{
+      deleteFromCart:function(){
+        this.$emit('deleteFromCart');
+      }
+    },
     computed:{}
 }
 </script>

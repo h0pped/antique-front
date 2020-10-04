@@ -34,11 +34,28 @@ export default new Vuex.Store({
     },
 
     SET_CART: (state, product) => {
-      state.cart.push(product);
-      state.cart_total += product.price;
+      if(state.cart.length){
+        let isProductExist = false;
+        state.cart.map(function(item){
+          if(item.id===product.id){
+            isProductExist = true;
+          }
+        })
+        if(!isProductExist){
+          state.cart.push(product);
+        state.cart_total += product.price;
+        }
+      }else{
+        state.cart.push(product);
+        state.cart_total += product.price;
+      }
     },
     CLEAR_CART: (state) => {
       state.cart = [];
+    },
+    REMOVE_FROM_CART:(state,index)=>{
+      state.cart_total-=state.cart[index].price;
+      state.cart.splice(index,1);
     }
 
   },
@@ -78,6 +95,9 @@ export default new Vuex.Store({
     ADD_TO_CART({ commit }, product) {
       commit('SET_CART', product);
 
+    },
+    DELETE_FROM_CART({commit},index){
+      commit("REMOVE_FROM_CART",index);
     },
     FORM_ORDER({ commit, state }, credentials) {
 
