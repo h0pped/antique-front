@@ -1,4 +1,7 @@
 <template>
+<div>
+
+<v-notification :messages="messages" :timeout="3000"/>
   <v-container class="text-center">
     <div v-if="loading">
       <v-container>
@@ -60,17 +63,23 @@
       </v-card>
     </div>
   </v-container>
+</div>
 </template>
 
 <script>
 import {mapActions} from 'vuex'
+import vNotification from "../../Notifications/v-notification"
 export default {
   name: "Description",
   data: () => ({
     url: "https://localhost:44351",
     loading: true,
     product: null,
+    messages:[],
   }),
+  components:{
+    vNotification
+  },
   props: {
     id: String,
   },
@@ -85,7 +94,20 @@ export default {
         'ADD_TO_CART'
       ]),
     addToCart(data){
-      this.ADD_TO_CART(data);
+      this.ADD_TO_CART(data).then((response) => {
+        let timeStamp = Date.now().toLocaleString();
+        if (response == true) {
+          this.messages.unshift({
+            name: "Товар был успешно добавлен в корзину",
+            id: timeStamp,
+            type: "success",
+          });
+        }else{
+          this.messages.unshift(
+          {name:"Товар уже находится в корзине",id:timeStamp,type:"warning"}
+        )
+        }
+      });
     }
   }
 };

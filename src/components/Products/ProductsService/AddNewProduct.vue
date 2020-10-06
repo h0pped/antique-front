@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire" class="grey lighten-3">
+    <v-notification :messages="messages" :timeout="3000"/>
     <v-main>
       <v-container fluid>
         <v-row justify="center">
@@ -131,9 +132,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import vNotification from "../../Notifications/v-notification"
 export default {
   computed: {
     ...mapGetters(["token"]),
+  },
+  components:{
+    vNotification
   },
 
   data() {
@@ -148,7 +153,6 @@ export default {
       isLoading: false,
       isFormValid: false,
       images: [],
-
       category_list: [
         { text: "Комоды", value: "Комоды" },
         { text: "Мягкая часть", value: "Мягкая часть" },
@@ -156,6 +160,8 @@ export default {
         { text: "Часы", value: "Часы" },
         { text: "Разное", value: "Разное" },
       ],
+
+      messages:[],
     };
   },
   methods: {
@@ -191,9 +197,21 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Новый товар был успешно добавлен в категорию \""+this.category+"\"",
+            id: timeStamp,
+            type: "success",
+          });
         })
         .catch((error) => {
           console.log(error);
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Ошибка при добавлении нового товара, попробуйте позже",
+            id: timeStamp,
+            type: "error",
+          });
         });
     },
     deleteImg:function(num){

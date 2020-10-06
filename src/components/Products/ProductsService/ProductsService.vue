@@ -1,4 +1,5 @@
 <template>
+<div>
   <div v-if="loading">
     <v-row cols="12">
       <v-col>
@@ -7,6 +8,7 @@
     </v-row>
   </div>
   <div v-else>
+
     <v-container>
       <v-row cols="12">
         <v-col>
@@ -32,11 +34,13 @@
       :onPageChange="paginate"
     ></Pagination>
   </div>
+  </div>
 </template>
 
 <script>
 import Pagination from "../../Pagination/Pagination.vue";
 import ProductsViewer from "../ProductsService/ProductsViewer.vue";
+
 export default {
   name: "All",
   components: {

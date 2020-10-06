@@ -1,9 +1,12 @@
 <template>
   <div class="v-notification">
     <transition-group name="v-transition-animate" class="messages_list">
-      <div class="v-notification_content" v-for="message in messages" :key="message.id">
-        <v-alert  :type="message.type" dense
-  dismissible>
+      <div
+        class="v-notification_content"
+        v-for="message in messages"
+        :key="message.id"
+      >
+        <v-alert :type="message.type" dense  elevation="5">
           {{ message.name }}</v-alert
         >
       </div>
@@ -29,32 +32,31 @@ export default {
       type: String,
       default: "",
     },
-    timeout:{
-        type:Number,
-        default:3000
-    }
+    timeout: {
+      type: Number,
+      default: 3000,
+    },
   },
   data() {
     return {};
   },
-  methods:{
-      hideNotification(){
-          let vm = this;
-          if(vm.messages.length){
-
-          setTimeout(() => {
-             vm.messages.splice(vm.messages.length-1,1); 
-          }, vm.timeout);
-          }
+  methods: {
+    hideNotification() {
+      let vm = this;
+      if (vm.messages.length) {
+        setTimeout(() => {
+          vm.messages.splice(vm.messages.length - 1, 1);
+        }, vm.timeout);
       }
+    },
   },
-  watch :{
-      messages(){
-          this.hideNotification();
-      }
-  },
-  mounted(){
+  watch: {
+    messages() {
       this.hideNotification();
+    },
+  },
+  mounted() {
+    this.hideNotification();
   },
   computed: {},
 };
@@ -65,7 +67,7 @@ export default {
   position: fixed;
   top: 20px;
   right: 16px;
-  z-index: 10;
+  z-index: 9999;
   &_content {
     padding: 16px;
     border-radius: 4px;
@@ -76,33 +78,32 @@ export default {
     margin-bottom: 16px;
   }
 }
-.v-transition-animate{
-    &-enter{
-        transform: translateX(120px);
-        opacity: 0;
-    }
-    &-enter-active{
-        transition: all .6s ease;
-    }
+.v-transition-animate {
+  &-enter {
+    transform: translateX(120px);
+    opacity: 0;
+  }
+  &-enter-active {
+    transition: all 0.6s ease;
+  }
 
-    &-enter-to{
-        opacity: 1;
-    }
-    &-leave{
-        height: 50px;
-        opacity: 1;
-    }
-    &-leave-active{
-        transition: transform .6s ease,opacity .6s,height .6s .2s ;
-    }
-    &-leave-to{
-        height: 0;
-        transform: translateX(120px);
-        opacity: 0;
-
-    }
-    &-move{
-        transition: transform .6s ease;
-    }
+  &-enter-to {
+    opacity: 1;
+  }
+  &-leave {
+    height: 50px;
+    opacity: 1;
+  }
+  &-leave-active {
+    transition: transform 0.6s ease, opacity 0.6s, height 0.6s 0.2s;
+  }
+  &-leave-to {
+    height: 0;
+    transform: translateX(120px);
+    opacity: 0;
+  }
+  &-move {
+    transition: transform 0.6s ease;
+  }
 }
 </style>

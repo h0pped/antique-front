@@ -1,4 +1,7 @@
 <template>
+<div>
+    <v-notification :messages="messages" :timeout="3000"/>
+
   <v-hover v-slot:default="{ hover }" open-delay="20">
     <v-card
       :elevation="hover ? 17 : 2"
@@ -97,13 +100,18 @@
       </v-card-actions>
     </v-card>
   </v-hover>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import vNotification from "../../Notifications/v-notification";
 export default {
   computed: {
     ...mapGetters(["loggedIn", "token"]),
+  },
+  components:{
+vNotification
   },
   name: "Product",
   props: {
@@ -119,6 +127,7 @@ export default {
     return {
       dialog: false,
       isSuccessDelete: false,
+      messages:[],
     };
   },
   methods: {
@@ -135,13 +144,24 @@ export default {
         .then((response) => {
           console.log(response);
           this.isSuccessDelete = true;
-
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Товар был успешно удален!",
+            id: timeStamp,
+            type: "success",
+          });
           setTimeout(() => {
             this.$router.go();
           }, 2000);
         })
         .catch((error) => {
           console.log(error);
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Ошибка при удалении товара, попробуйте позже",
+            id: timeStamp,
+            type: "error",
+          });
         });
     },
   },

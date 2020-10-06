@@ -1,6 +1,7 @@
 <template>
-
   <v-app id="inspire">
+    <v-notification :messages="messages" :timeout="3000" />
+
     <v-main class="grey lighten-3">
       <v-container fluid>
         <v-row justify="center" v-if="!isSuccess && this.cart.length">
@@ -11,14 +12,18 @@
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
-                <v-form @submit.prevent="formOrder" id="orderForm" v-model="isFormValid">
+                <v-form
+                  @submit.prevent="formOrder"
+                  id="orderForm"
+                  v-model="isFormValid"
+                >
                   <v-text-field
                     label="Ваше имя"
                     name="name"
                     prepend-icon="mdi-account"
                     type="text"
                     v-model="name"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -27,7 +32,7 @@
                     prepend-icon="mdi-account"
                     type="text"
                     v-model="surname"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -36,7 +41,7 @@
                     prepend-icon="mdi-cellphone"
                     type="number"
                     v-model="number"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -45,14 +50,14 @@
                     prepend-icon="mdi-city"
                     type="text"
                     v-model="city"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                     required
                   ></v-text-field>
                   <v-select
                     prepend-icon="mdi-car-multiple"
                     v-model="delivery_selected"
                     :items="delivery_options"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                     label="Служба доставки"
                     required
                   ></v-select>
@@ -63,51 +68,59 @@
                     prepend-icon="mdi-numeric"
                     type="number"
                     v-model="delivery_num"
-                    :rules="[v => !!v || 'Поле должно быть заполнено']"
+                    :rules="[(v) => !!v || 'Поле должно быть заполнено']"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <p class="font-weight-light display-6">Стоимость покупки: {{this.total}} грн.</p>
+                <p class="font-weight-light display-6">
+                  Стоимость покупки: {{ this.total }} грн.
+                </p>
                 <v-spacer></v-spacer>
                 <v-btn
                   type="submit"
                   color="success"
                   form="orderForm"
-                  :disabled="!isFormValid ||isLoading"
-                >Оформить заказ</v-btn>
+                  :disabled="!isFormValid || isLoading"
+                  >Оформить заказ</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
         <v-row v-else-if="isSuccess" align="center" justify="center">
           <div>
-            <p class="text-center font-weight-light text-h3">Заказ успешно оформлен!</p>
-            <p
-              class="text-center font-weight-light text-h5"
-            >Спасибо за покупку, в ближайшее время с вами свяжется наш менеджер!</p>
-            <p
-              class="text-center font-weight-light text-h5"
-            >Уникальный номер заказа: {{this.order_id}}</p>
+            <p class="text-center font-weight-light text-h3">
+              Заказ успешно оформлен!
+            </p>
+            <p class="text-center font-weight-light text-h5">
+              Спасибо за покупку, в ближайшее время с вами свяжется наш
+              менеджер!
+            </p>
+            <p class="text-center font-weight-light text-h5">
+              Уникальный номер заказа: {{ this.order_id }}
+            </p>
           </div>
         </v-row>
         <v-row v-else-if="!this.cart.length" align="center" justify="center">
-          <p
-            class="font-weight-light text-h6"
-          >К сожалению, вы не можете оформить заказ, пока ваша корзина пуста</p>
+          <p class="font-weight-light text-h6">
+            К сожалению, вы не можете оформить заказ, пока ваша корзина пуста
+          </p>
         </v-row>
       </v-container>
     </v-main>
   </v-app>
-
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import vNotification from "../../Notifications/v-notification";
 
 export default {
   name: "FormOrder",
-  components: {},
+  components: {
+    vNotification,
+  },
   computed: {
     ...mapGetters(["cart", "total"]),
   },
@@ -131,6 +144,8 @@ export default {
       ],
 
       order_id: null,
+
+      messages: [],
     };
   },
   props: {
@@ -155,8 +170,22 @@ export default {
           this.order_id = response.data;
           this.isSuccess = true;
           console.log("ORDER ID: ", this.order_id);
-          //this.$router.push("/");
           this.isLoading = false;
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Заказ был успешно оформлен! №: " + this.order_id,
+            id: timeStamp,
+            type: "success",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          let timeStamp = Date.now().toLocaleString();
+          this.messages.unshift({
+            name: "Ошибка при оформлении заказа",
+            id: timeStamp,
+            type: "error",
+          });
         });
     },
   },

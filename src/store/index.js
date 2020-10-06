@@ -103,8 +103,16 @@ export default new Vuex.Store({
         }
       });
     },
-    DELETE_FROM_CART({commit},index){
-      commit("REMOVE_FROM_CART",index);
+    DELETE_FROM_CART({commit,getters},index){
+      return new Promise((resolve) => {
+        let cartLength = getters.cart.length;  
+            commit("REMOVE_FROM_CART",index);
+        if(getters.cart.length<cartLength){
+          resolve(true);
+        }else{
+          resolve(false);
+        }
+      });
     },
     FORM_ORDER({ commit, state }, credentials) {
 
